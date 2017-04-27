@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V4.App;
 using Syncfusion.SfChart.XForms.Droid;
 using Xamarin.Forms.Platform.Android;
 
@@ -37,13 +38,13 @@ namespace Hackaton.Droid
         {
             // We need to have at least the following permissions
             // From Android 7.0 we need to have Location-permission in order to scan and connect to a Bluetooth LE device ... for some reason ...
-            if (CheckSelfPermission(Manifest.Permission.Bluetooth) != Permission.Granted ||
-                CheckSelfPermission(Manifest.Permission.BluetoothAdmin) != Permission.Granted ||
-                CheckSelfPermission(Manifest.Permission.BluetoothPrivileged) != Permission.Granted ||
-                CheckSelfPermission(Manifest.Permission.AccessCoarseLocation) != Permission.Granted ||
-                CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
+            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) != Permission.Granted ||
+                ActivityCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothAdmin) != Permission.Granted ||
+                ActivityCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothPrivileged) != Permission.Granted ||
+                ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) != Permission.Granted ||
+                ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) != Permission.Granted)
             {
-                RequestPermissions(Permissions, 0);
+                ActivityCompat.RequestPermissions(this, Permissions, 0);
             }
         }
     }
