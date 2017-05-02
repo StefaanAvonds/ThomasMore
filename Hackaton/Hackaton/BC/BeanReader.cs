@@ -25,12 +25,16 @@ namespace Hackaton.BC
             var characteristicDiscover = App.ConnectedDevice.NativeDevice.WhenAnyCharacteristicDiscovered().Subscribe(characteristic =>
             {
                 if (characteristic.Service.Uuid != Constants.BeanServiceScratchDataUuid) return;
-                if (characteristic.Uuid != Constants.BeanCharacteristicScratchDataAccelerometerUuid) return;
-                
-                _characteristics.Add(characteristic.SubscribeToNotifications().Subscribe(result =>
+                if (characteristic.Uuid == Constants.BeanCharacteristicScratchDataAccelerometerUuid || characteristic.Uuid == Constants.BeanCharacteristicScratchDataTemperatureUuid)
                 {
-                    ProcessAccelerometerByteArray(result.Data);
-                }));
+                    _characteristics.Add(characteristic.SubscribeToNotifications().Subscribe(result =>
+                    {
+                        if (result.Characteristic.Uuid == Constants.BeanCharacteristicScratchDataAccelerometerUuid)
+                            ProcessAccelerometerByteArray(result.Data);
+                        else if (result.Characteristic.Uuid == Constants.BeanCharacteristicScratchDataTemperatureUuid)
+                            ProcessTemperatureByteArray(result.Data);
+                    }));
+                }
             });
         }
 
@@ -59,6 +63,11 @@ namespace Hackaton.BC
 
             // And insert it into SQLite
             DatabaseManager.Instance.AccelerometerTable.Insert(accelerometer);
+        }
+
+        private void ProcessTemperatureByteArray(byte[] byteArray)
+        {
+            var temperature = BitConverter.ToInt16(new byte[] { byteArray[0] }, 0);
         }
 
         /// <summary>
