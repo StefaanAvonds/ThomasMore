@@ -29,7 +29,7 @@ namespace Hackaton.Droid
 
             CheckPermissions();
             
-            Plugin.BluetoothLE.AndroidConfig.ForcePreLollipopScanner = true;
+            Plugin.BluetoothLE.AndroidConfig.ForcePreLollipopScanner = false;
             
             LoadApplication(new App());
         }
@@ -38,7 +38,7 @@ namespace Hackaton.Droid
         {
             // We need to have at least the following permissions
             // From Android 7.0 we need to have Location-permission in order to scan and connect to a Bluetooth LE device ... for some reason ...
-            if (Android.OS.Build.VERSION.SdkInt <= BuildVersionCodes.M)
+            if (Android.OS.Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
                 if (CheckSelfPermission(Manifest.Permission.Bluetooth) != Permission.Granted ||
                 CheckSelfPermission(Manifest.Permission.BluetoothAdmin) != Permission.Granted ||

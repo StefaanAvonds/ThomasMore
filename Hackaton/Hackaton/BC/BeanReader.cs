@@ -67,7 +67,7 @@ namespace Hackaton.BC
 
         private void ProcessTemperatureByteArray(byte[] byteArray)
         {
-            var temperature = BitConverter.ToInt16(new byte[] { byteArray[0] }, 0);
+            var temperature = byteArray[0];
         }
 
         /// <summary>
