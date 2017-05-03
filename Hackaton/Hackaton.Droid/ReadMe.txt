@@ -1,0 +1,1 @@
+﻿Activate the Bluetooth-function on your mobile device AND activate the GPS location-function.
